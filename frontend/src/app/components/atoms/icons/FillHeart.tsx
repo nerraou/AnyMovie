@@ -1,8 +1,8 @@
 function FillHeart() {
   return (
     <svg
-      width="44"
-      height="44"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       strokeWidth="2"
       stroke="#FFC94A"

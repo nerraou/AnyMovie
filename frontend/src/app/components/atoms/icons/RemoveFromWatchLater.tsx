@@ -2,8 +2,8 @@ function RemoveFromWatchLater() {
   return (
     <svg
       className="icon icon-tabler icon-tabler-clock-x"
-      width="44"
-      height="44"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       stroke-width="2"
       stroke="#535C91"
