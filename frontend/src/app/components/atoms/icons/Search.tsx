@@ -1,11 +1,10 @@
 function Search() {
   return (
     <svg
-      className="icon icon-tabler icon-tabler-search"
       width="32"
       height="32"
       viewBox="0 0 24 24"
-      strokeWidth="1.5"
+      strokeWidth="2"
       stroke="#FFC94A"
       fill="none"
       strokeLinecap="round"
