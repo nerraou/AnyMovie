@@ -20,7 +20,7 @@ interface InputPasswordProps {
 const InputSearch = forwardRef<HTMLInputElement, InputPasswordProps>(
   function InputPassword(props, ref) {
     let height = "h-10";
-    const defaultWidth = "w-96";
+    const defaultWidth = "w-2/6";
     const width = props.width || defaultWidth;
 
     if (props.height == "large") {

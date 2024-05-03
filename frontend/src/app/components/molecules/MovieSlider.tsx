@@ -64,13 +64,12 @@ function MovieSLider(props: MovieSLiderProps) {
             className="keen-slider__slide flex justify-center overflow-visible"
             title={movie.name}
           >
-            <div className="relative w-full">
+            <div className="relative w-full h-96">
               <Image
                 src={movie.image}
                 alt="movie"
-                width={100}
-                height={40}
-                className="w-full h-96 object-cover object-top"
+                fill
+                className="absolute object-cover object-top"
               />
               <h1 className="absolute bottom-11 left-5 text-white font-black text-3xl">
                 {movie.name}

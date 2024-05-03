@@ -9,7 +9,7 @@ interface SelectButtonProps {
 function SelectButton(props: SelectButtonProps) {
   return (
     <button
-      className={clsx("text-lg border-4 w-24 h-12 rounded-full", {
+      className={clsx("text-lg border-4 w-24 h-10 rounded-full", {
         "text-gunmetal border-light-blue": !props.selected,
         "text-cream border-light-blue bg-gunmetal": props.selected,
       })}
