@@ -13,16 +13,49 @@ interface Movie {
 }
 
 function MovieSLider(props: MovieSLiderProps) {
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: 1,
+  const [sliderRef] = useKeenSlider(
+    {
+      slides: {
+        perView: 1,
+      },
+      loop: true,
     },
-  });
+    [
+      (slider) => {
+        let timeout: ReturnType<typeof setTimeout>;
+        let mouseOver = false;
+        function clearNextTimeout() {
+          clearTimeout(timeout);
+        }
+        function nextTimeout() {
+          clearTimeout(timeout);
+          if (mouseOver) return;
+          timeout = setTimeout(() => {
+            slider.next();
+          }, 4000);
+        }
+        slider.on("created", () => {
+          slider.container.addEventListener("mouseover", () => {
+            mouseOver = true;
+            clearNextTimeout();
+          });
+          slider.container.addEventListener("mouseout", () => {
+            mouseOver = false;
+            nextTimeout();
+          });
+          nextTimeout();
+        });
+        slider.on("dragStarted", clearNextTimeout);
+        slider.on("animationEnded", nextTimeout);
+        slider.on("updated", nextTimeout);
+      },
+    ]
+  );
 
   return (
     <div
       ref={sliderRef}
-      className="keen-slider flex items-center border border-light-fg-link overflow-hidden"
+      className="keen-slider flex items-center overflow-hidden"
     >
       {props.movies.map((movie, index) => {
         return (
@@ -31,7 +64,7 @@ function MovieSLider(props: MovieSLiderProps) {
             className="keen-slider__slide flex justify-center overflow-visible"
             title={movie.name}
           >
-            <div className="relative w-full m-2">
+            <div className="relative w-full">
               <Image
                 src={movie.image}
                 alt="movie"
@@ -39,10 +72,10 @@ function MovieSLider(props: MovieSLiderProps) {
                 height={40}
                 className="w-full h-96 object-cover object-top"
               />
-              <h1 className="absolute bottom-16 left-5 text-white font-black">
+              <h1 className="absolute bottom-11 left-5 text-white font-black text-3xl">
                 {movie.name}
               </h1>
-              <p className="absolute bottom-10 left-5 text-white">
+              <p className="absolute bottom-4 left-5 text-white">
                 {movie.description}
               </p>
             </div>
