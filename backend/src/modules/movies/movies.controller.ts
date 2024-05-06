@@ -22,14 +22,11 @@ export class MoviesController {
     return this.moviesService.getPlayingMovies();
   }
 
-  @Get('/cache')
-  async cache() {
-    return 'VALUE ' + (await this.cacheManager.get('key'));
-  }
-
-  @Get('/set')
-  async setKey() {
-    await this.cacheManager.set('key', 'value', 0);
-    return 'OK';
+  @UseInterceptors(CacheInterceptor)
+  @Get('/popular')
+  @CacheTTL(5000)
+  getPopularMovies() {
+    console.log('get data from the api');
+    return this.moviesService.getPopularMovies();
   }
 }

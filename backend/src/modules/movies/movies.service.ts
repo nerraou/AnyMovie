@@ -21,4 +21,25 @@ export class MoviesService {
       };
     });
   }
+
+  async getPopularMovies() {
+    const api = process.env.TMDB_V3_API_BASE_URL + '/movie/popular';
+
+    const response = await fetch(api, {
+      headers: {
+        Authorization: 'Bearer ' + process.env.TMDB_ACCESS_TOKEN,
+      },
+    });
+
+    const movies = await response.json();
+    return movies.results.map((movie: any) => {
+      return {
+        id: movie.id,
+        title: movie.title,
+        releaseDate: movie.release_date,
+        overview: movie.overview,
+        posterPath: movie.poster_path,
+      };
+    });
+  }
 }
