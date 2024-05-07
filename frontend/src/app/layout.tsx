@@ -1,6 +1,9 @@
+import "./global.css";
+
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
-import "./global.css";
+
+import ReactQueryProvider from "./components/providers/ReactQueryProvider";
 
 const sourceSans3 = Source_Sans_3({ subsets: ["latin"] });
 
@@ -16,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={sourceSans3.className}>{children}</body>
+      <body className={sourceSans3.className}>
+        <ReactQueryProvider>{children} </ReactQueryProvider>
+      </body>
     </html>
   );
 }

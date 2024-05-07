@@ -1,33 +1,19 @@
 "use client";
 
+import { Suspense } from "react";
 import InputSearch from "./components/atoms/InputSearch";
 import MovieCard from "./components/molecules/MovieCard";
-import MovieSLider from "./components/molecules/MovieSlider";
+import MovieSlider from "./components/molecules/MovieSlider";
 import RadioButtonGroup from "./components/molecules/RadioButtonGroup";
+import { useGetPlayingMovies } from "./components/services/useGetPlayingMoviesQuery";
 
 export default function Home() {
   return (
     <main className="flex flex-col bg-cream  items-center h-full">
       <div className="w-full">
-        <MovieSLider
-          movies={[
-            {
-              name: "travolta",
-              description: "khok travolta",
-              image: "/background.jpg",
-            },
-            {
-              name: "travolta",
-              description: "khok travolta",
-              image: "/background.jpg",
-            },
-            {
-              name: "travolta",
-              description: "khok travolta",
-              image: "/background.jpg",
-            },
-          ]}
-        />
+        <Suspense fallback={<h1>Loading</h1>}>
+          <MovieSlider />
+        </Suspense>
       </div>
 
       <div className="w-full mt-10 flex justify-center flex-col items-center space-y-2">
