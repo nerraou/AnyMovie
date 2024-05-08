@@ -1,4 +1,12 @@
-import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 import { MoviesService } from './movies.service';
@@ -15,8 +23,8 @@ export class MoviesController {
     return this.moviesService.getPlayingMovies();
   }
 
-  @UseInterceptors(CacheInterceptor)
   @Get()
+  @UseInterceptors(CacheInterceptor)
   @CacheTTL(5000)
   getMovies(@Query() query: GetMoviesDto) {
     if (query.searchQuery) {
@@ -27,5 +35,18 @@ export class MoviesController {
     } else {
       return this.moviesService.getPopularMovies(query.page);
     }
+  }
+
+  @Get(':id([0-9]{1,11})')
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(5000)
+  async getMovieById(@Param('id', ParseIntPipe) movieId: number) {
+    const movie = await this.moviesService.getMovieById(movieId);
+
+    if (!movie) {
+      throw new NotFoundException();
+    }
+
+    return movie;
   }
 }
