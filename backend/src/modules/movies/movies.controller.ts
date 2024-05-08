@@ -1,4 +1,10 @@
-import { Controller, Get, Inject, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import {
   CACHE_MANAGER,
@@ -6,6 +12,7 @@ import {
   CacheTTL,
 } from '@nestjs/cache-manager';
 import { Cache } from '@nestjs/cache-manager';
+import { GetMoviesDto } from './dto/get-movies-tdo';
 
 @Controller('movies')
 export class MoviesController {
@@ -23,10 +30,19 @@ export class MoviesController {
   }
 
   @UseInterceptors(CacheInterceptor)
-  @Get('/popular')
+  @Get('/movies')
   @CacheTTL(5000)
-  getPopularMovies() {
-    console.log('get data from the api');
-    return this.moviesService.getPopularMovies();
+  getMovies(@Query() query: GetMoviesDto) {
+    console.log('query', query);
+    if (query.searchQuery) {
+      console.log('search movies');
+      return this.moviesService.getSearchedMovies(
+        query.searchQuery,
+        query.page,
+      );
+    } else {
+      console.log('nop');
+      return this.moviesService.getPopularMovies(query.page);
+    }
   }
 }
