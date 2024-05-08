@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class MoviesService {
   async getPlayingMovies() {
     const api = process.env.TMDB_V3_API_BASE_URL + '/movie/now_playing';
+
     const response = await fetch(api, {
       headers: {
         Authorization: 'Bearer ' + process.env.TMDB_ACCESS_TOKEN,
@@ -23,12 +24,13 @@ export class MoviesService {
   }
 
   async getPopularMovies(page: number) {
+    const searchParams = new URLSearchParams({
+      page: page.toString(),
+    });
+
     const api =
-      process.env.TMDB_V3_API_BASE_URL +
-      '/movie/popular?' +
-      new URLSearchParams({
-        page: page.toString(),
-      });
+      process.env.TMDB_V3_API_BASE_URL + '/movie/popular?' + searchParams;
+
     const response = await fetch(api, {
       headers: {
         Authorization: 'Bearer ' + process.env.TMDB_ACCESS_TOKEN,
@@ -36,6 +38,7 @@ export class MoviesService {
     });
 
     const movies = await response.json();
+
     return movies.results.map((movie: any) => {
       return {
         id: movie.id,
@@ -48,13 +51,13 @@ export class MoviesService {
   }
 
   async getSearchedMovies(searchQuery: string, page: number) {
+    const searchParams = new URLSearchParams({
+      query: searchQuery,
+      page: page.toString(),
+    });
+
     const api =
-      process.env.TMDB_V3_API_BASE_URL +
-      '/search/movie?' +
-      new URLSearchParams({
-        query: searchQuery,
-        page: page.toString(),
-      });
+      process.env.TMDB_V3_API_BASE_URL + '/search/movie?' + searchParams;
 
     const response = await fetch(api, {
       headers: {
@@ -63,6 +66,7 @@ export class MoviesService {
     });
 
     const movies = await response.json();
+
     return movies.results.map((movie: any) => {
       return {
         id: movie.id,

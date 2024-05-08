@@ -14,10 +14,6 @@ export class GetMoviesDto {
   @IsOptional()
   page = 1;
 
-  @IsInt()
-  @Type(() => Number)
-  @IsPositive()
-  @IsOptional()
   @Expose({ name: 'search_query' })
   @IsOptional()
   @IsString()
