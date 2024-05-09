@@ -13,17 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Movie {
-  id          Int      @id @default(autoincrement()) @map("id")
-  movieId     Int      @map("movie_id")
-  releaseData String   @map("release_date") @db.VarChar(10)
-  title       String   @map("title") @db.VarChar(1000)
-  posterPath  String   @map("poster_path") @db.VarChar(1000)
-  isFavorite  Boolean  @default(false) @map("is_favorite")
-  isWatched   Boolean  @default(false) @map("is_watched")
-  isToWatch   Boolean  @default(false) @map("is_to_watch")
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp()
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp()
+model User {
+  id        Int      @id @default(autoincrement()) @map("id")
+  username  String   @unique @db.VarChar(255)
+  password  String   @map("password") @db.VarChar(72)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp()
 
-  @@map("movies")
+  @@map("users")
 }
