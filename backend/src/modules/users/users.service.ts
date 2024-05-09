@@ -25,4 +25,12 @@ export class UsersService {
       where: { username },
     });
   }
+
+  findUserMovies(userId: number) {
+    return this.prisma.movie.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
 }

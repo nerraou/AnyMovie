@@ -13,11 +13,19 @@ interface CreateMovieDto {
   isToWatch?: boolean;
 }
 
+export interface Movie {
+  id: number;
+  title: string;
+  releaseDate: string;
+  overview: string;
+  posterPath: string | null;
+}
+
 @Injectable()
 export class MoviesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async tmdb_getPlayingMovies() {
+  async tmdb_getPlayingMovies(): Promise<Movie[]> {
     const api = process.env.TMDB_V3_API_BASE_URL + '/movie/now_playing';
 
     const response = await fetch(api, {
@@ -38,7 +46,7 @@ export class MoviesService {
     });
   }
 
-  async tmdb_getPopularMovies(page: number) {
+  async tmdb_getPopularMovies(page: number): Promise<Movie[]> {
     const searchParams = new URLSearchParams({
       page: page.toString(),
     });
