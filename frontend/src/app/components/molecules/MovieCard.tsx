@@ -11,7 +11,7 @@ interface MovieCardProps {
   name: string;
   image: string;
   date: string;
-  isFavorit: boolean;
+  isFavorite: boolean;
   isWatched: boolean;
   isToWatch: boolean;
 }
@@ -37,8 +37,8 @@ function MovieCard(props: MovieCardProps) {
           {props.isToWatch && <WatchLater />}
           {!props.isToWatch && <RemoveFromWatchLater />}
 
-          {props.isFavorit && <FillHeart />}
-          {!props.isFavorit && <Heart />}
+          {props.isFavorite && <FillHeart />}
+          {!props.isFavorite && <Heart />}
 
           {props.isWatched && <Watched />}
           {!props.isWatched && <AddToWatched />}

@@ -81,7 +81,6 @@ export default function Home() {
           <MovieSlider />
         </Suspense>
       </div>
-
       <div className="w-full mt-10 flex justify-center flex-col items-center space-y-2 mb-9">
         <h1 className="text-blue font-black text-5xl">ANY MOVIE</h1>
         <InputSearch
@@ -107,7 +106,7 @@ export default function Home() {
                       name={value.title}
                       date={value.releaseDate}
                       image={value.posterPath}
-                      isFavorit
+                      isFavorite
                       isToWatch
                       isWatched
                     />
