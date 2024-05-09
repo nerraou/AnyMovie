@@ -1,8 +1,31 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/common/modules/prisma/prisma.service';
+
+interface CreateMovieDto {
+  userId: number;
+  movieId: number;
+  posterPath: string | null;
+  backdropPath: string | null;
+  releaseDate: string;
+  title: string;
+  isFavorite?: boolean;
+  isWatched?: boolean;
+  isToWatch?: boolean;
+}
+
+export interface Movie {
+  id: number;
+  title: string;
+  releaseDate: string;
+  overview: string;
+  posterPath: string | null;
+}
 
 @Injectable()
 export class MoviesService {
-  async tmdb_getPlayingMovies() {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async tmdb_getPlayingMovies(): Promise<Movie[]> {
     const api = process.env.TMDB_V3_API_BASE_URL + '/movie/now_playing';
 
     const response = await fetch(api, {
@@ -23,7 +46,7 @@ export class MoviesService {
     });
   }
 
-  async tmdb_getPopularMovies(page: number) {
+  async tmdb_getPopularMovies(page: number): Promise<Movie[]> {
     const searchParams = new URLSearchParams({
       page: page.toString(),
     });
@@ -112,7 +135,7 @@ export class MoviesService {
       title: data.title,
       overview: data.overview,
       runtime: data.runtime,
-      originaLanguage: data.origina_language,
+      originalLanguage: data.original_language,
       backdropPath: data.backdrop_path,
       posterPath: data.poster_path,
       releaseDate: data.release_date,
@@ -122,5 +145,46 @@ export class MoviesService {
       genres: data.genres,
       cast,
     };
+  }
+
+  async getMovieById(movieId: number) {
+    return this.prisma.movie.findFirst({
+      where: {
+        movieId,
+      },
+    });
+  }
+
+  async createMovie(data: CreateMovieDto) {
+    return this.prisma.movie.create({
+      data: {
+        userId: data.userId,
+        movieId: data.movieId,
+        posterPath: data.posterPath,
+        backdropPath: data.backdropPath,
+        releaseDate: data.releaseDate,
+        title: data.title,
+        isFavorite: data.isFavorite,
+        isWatched: data.isWatched,
+        isToWatch: data.isToWatch,
+      },
+    });
+  }
+
+  updateMovieById(id: number, data: Partial<CreateMovieDto>) {
+    return this.prisma.movie.updateMany({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  deleteMovieById(id: number) {
+    return this.prisma.movie.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
