@@ -59,6 +59,7 @@ function MovieSlider() {
           >
             <div className="relative w-full h-96">
               <Image
+                priority={false}
                 src={
                   process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL +
                   movie.backdropPath

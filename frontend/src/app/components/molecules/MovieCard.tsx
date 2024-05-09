@@ -18,14 +18,16 @@ interface MovieCardProps {
 
 function MovieCard(props: MovieCardProps) {
   return (
-    <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg">
-      <Image
-        src={props.image}
-        alt="movie image"
-        width={200}
-        height={230}
-        className="object-contain rounded-lg"
-      />
+    <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60">
+      {props.image && (
+        <Image
+          src={process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + props.image}
+          alt="movie image"
+          width={200}
+          height={230}
+          className="object-contain rounded-lg"
+        />
+      )}
       <div className="flex justify-between mt-2">
         <div>
           <h1 className="text-dark-blue font-semibold">{props.name}</h1>
