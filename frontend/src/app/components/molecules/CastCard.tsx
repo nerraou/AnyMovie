@@ -10,12 +10,14 @@ function CastCard(props: CastCardProps) {
   return (
     <div className="flex flex-col bg-white rounded-lg w-32 shadow-lg">
       <div className="relative w-32 h-40 ">
-        <Image
-          alt="character image"
-          src={props.image}
-          fill
-          className="absolute object-cover rounded-t-lg overflow-hidden"
-        />
+        {props.image && (
+          <Image
+            alt="character image"
+            src={process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + props.image}
+            fill
+            className="absolute object-cover rounded-t-lg overflow-hidden"
+          />
+        )}
       </div>
 
       <div className="space-y-2 p-2">

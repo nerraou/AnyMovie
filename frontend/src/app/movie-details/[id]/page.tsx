@@ -1,31 +1,48 @@
+"use client";
+
 import MovieDetailesCast from "@/app/components/molecules/MovieDetailsCast";
 import MovieDetailesGenerals from "@/app/components/molecules/MovieDetailsGenerals";
 import MovieDetailesOverview from "@/app/components/molecules/MovieDetailsOverview";
+import { useGetMovieById } from "@/app/components/services/useGetMovieByIdQuery";
 
-function MovieDetailes() {
+interface MovieDetailsProps {
+  params: {
+    id: number;
+  };
+}
+
+function MovieDetailes(props: MovieDetailsProps) {
+  console.log(props.params.id);
+
+  const { data } = useGetMovieById(props.params.id);
+
   return (
     <main className="flex flex-col bg-cream h-full space-y-6">
       <MovieDetailesOverview
-        id="1"
-        genre="Action"
-        time="2h 30m"
-        backdropPath="/background.jpg"
-        overview="this is the movie overview"
-        posterPath="/travolta.jpg"
-        releaseDate="2011-20-08"
-        title="Travolta"
+        id={data.id}
+        genres={data.genres}
+        time={data.runtime}
+        backdropPath={
+          process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + data.backdropPath
+        }
+        overview={data.overview}
+        posterPath={
+          process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + data.posterPath
+        }
+        releaseDate={data.releaseDate}
+        title={data.title}
         isFavorite
         isToWatch
         isWatched={false}
       />
       <div className="ml-36 pb-60 space-y-10">
         <MovieDetailesGenerals
-          budget={10000000}
+          budget={data.budget}
           originalLanguqge="English"
-          revenue={6418028}
-          status="Released"
+          revenue={data.revenue}
+          status={data.status}
         />
-        <MovieDetailesCast />
+        <MovieDetailesCast cast={data.cast} />
       </div>
     </main>
   );

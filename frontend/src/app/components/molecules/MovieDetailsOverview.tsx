@@ -7,10 +7,10 @@ import CircleFillWatched from "../atoms/icons/CircleFillWatched";
 import CircleFillAddToWatched from "../atoms/icons/CircleFillAddToWatched";
 
 interface MovieDetailesOverviewProps {
-  id: string;
+  id: number;
   title: string;
-  genre: string;
-  time: string;
+  genres: genre[];
+  time: number;
   overview: string;
   releaseDate: string;
   posterPath: string;
@@ -18,6 +18,20 @@ interface MovieDetailesOverviewProps {
   isFavorite: boolean;
   isWatched: boolean;
   isToWatch: boolean;
+}
+
+interface genre {
+  id: number;
+  name: string;
+}
+
+function timeConvert(n: number) {
+  var num = n;
+  var hours = num / 60;
+  var rhours = Math.floor(hours);
+  var minutes = (hours - rhours) * 60;
+  var rminutes = Math.round(minutes);
+  return rhours + "h " + rminutes + "m.";
 }
 
 function MovieDetailesOverview(props: MovieDetailesOverviewProps) {
@@ -49,8 +63,16 @@ function MovieDetailesOverview(props: MovieDetailesOverviewProps) {
 
             <ul className="w-full list-disc inline-flex space-x-2 flex-1 text-white list-inside font-sans text-xs">
               <li>{props.releaseDate}</li>
-              <li>{props.genre}</li>
-              <li>{props.time}</li>
+              <li className="flex">
+                {props.genres.map((genre) => {
+                  return (
+                    <p className="px-1" key={genre.id}>
+                      {genre.name}
+                    </p>
+                  );
+                })}
+              </li>
+              <li>{timeConvert(props.time)}</li>
             </ul>
             <div className="flex space-x-2 py-3">
               {props.isToWatch && <CircleFillWatchLater />}
