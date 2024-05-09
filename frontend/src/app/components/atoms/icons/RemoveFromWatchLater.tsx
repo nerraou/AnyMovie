@@ -5,11 +5,11 @@ function RemoveFromWatchLater() {
       width="20"
       height="20"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="#535C91"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M20.926 13.15a9 9 0 1 0 -7.835 7.784" />

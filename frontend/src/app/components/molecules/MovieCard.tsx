@@ -9,7 +9,7 @@ import AddToWatched from "../atoms/icons/AddToWatched";
 
 interface MovieCardProps {
   name: string;
-  image: string;
+  image?: string | null | undefined;
   date: string;
   isFavorite: boolean;
   isWatched: boolean;
@@ -17,17 +17,22 @@ interface MovieCardProps {
 }
 
 function MovieCard(props: MovieCardProps) {
+  let image = "/images/movie-poster-placeholder.jpg";
+
+  if (props.image) {
+    image = process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + props.image;
+  }
+
   return (
     <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60">
-      {props.image && (
-        <Image
-          src={process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + props.image}
-          alt="movie image"
-          width={200}
-          height={230}
-          className="object-contain rounded-lg"
-        />
-      )}
+      <Image
+        src={image}
+        alt="movie image"
+        width={200}
+        height={230}
+        className="object-contain rounded-lg"
+      />
+
       <div className="flex justify-between mt-2">
         <div>
           <h1 className="text-dark-blue font-semibold">{props.name}</h1>
