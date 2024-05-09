@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MoviesService {
-  async getPlayingMovies() {
+  async tmdb_getPlayingMovies() {
     const api = process.env.TMDB_V3_API_BASE_URL + '/movie/now_playing';
 
     const response = await fetch(api, {
@@ -23,7 +23,7 @@ export class MoviesService {
     });
   }
 
-  async getPopularMovies(page: number) {
+  async tmdb_getPopularMovies(page: number) {
     const searchParams = new URLSearchParams({
       page: page.toString(),
     });
@@ -50,7 +50,7 @@ export class MoviesService {
     });
   }
 
-  async getSearchedMovies(searchQuery: string, page: number) {
+  async tmdb_getSearchedMovies(searchQuery: string, page: number) {
     const searchParams = new URLSearchParams({
       query: searchQuery,
       page: page.toString(),
@@ -78,7 +78,7 @@ export class MoviesService {
     });
   }
 
-  async getMovieById(movieId: number) {
+  async tmdb_getMovieById(movieId: number) {
     const searchParams = new URLSearchParams({
       append_to_response: 'credits',
     });

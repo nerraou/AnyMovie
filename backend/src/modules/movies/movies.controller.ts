@@ -10,7 +10,7 @@ import {
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 import { MoviesService } from './movies.service';
-import { GetMoviesDto } from './dto/get-movies-dto';
+import { GetMoviesDto } from './dto/get-movies.dto';
 
 @Controller('movies')
 export class MoviesController {
@@ -20,7 +20,7 @@ export class MoviesController {
   @Get('/playing')
   @CacheTTL(5000)
   getPlayingMovies() {
-    return this.moviesService.getPlayingMovies();
+    return this.moviesService.tmdb_getPlayingMovies();
   }
 
   @Get()
@@ -28,12 +28,12 @@ export class MoviesController {
   @CacheTTL(5000)
   getMovies(@Query() query: GetMoviesDto) {
     if (query.searchQuery) {
-      return this.moviesService.getSearchedMovies(
+      return this.moviesService.tmdb_getSearchedMovies(
         query.searchQuery,
         query.page,
       );
     } else {
-      return this.moviesService.getPopularMovies(query.page);
+      return this.moviesService.tmdb_getPopularMovies(query.page);
     }
   }
 
@@ -41,7 +41,7 @@ export class MoviesController {
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(5000)
   async getMovieById(@Param('id', ParseIntPipe) movieId: number) {
-    const movie = await this.moviesService.getMovieById(movieId);
+    const movie = await this.moviesService.tmdb_getMovieById(movieId);
 
     if (!movie) {
       throw new NotFoundException();
