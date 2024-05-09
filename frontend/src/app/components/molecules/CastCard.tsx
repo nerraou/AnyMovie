@@ -8,8 +8,8 @@ interface CastCardProps {
 
 function CastCard(props: CastCardProps) {
   return (
-    <div className="flex flex-col bg-white rounded-lg w-28 shadow-lg">
-      <div className="relative w-full h-40">
+    <div className="flex flex-col bg-white rounded-lg w-32 shadow-lg">
+      <div className="relative w-32 h-40 ">
         <Image
           alt="character image"
           src={props.image}

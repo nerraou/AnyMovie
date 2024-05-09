@@ -1,14 +1,10 @@
-import CircleFillAddToWatched from "@/app/components/atoms/icons/CircleFillAddToWatched";
-import CircleFillFillHeart from "@/app/components/atoms/icons/CircleFillFillHeart";
-import CircleFillHeart from "@/app/components/atoms/icons/CircleFillHeart";
-import CircleFillRemoveFromWatchLater from "@/app/components/atoms/icons/CircleFillRemoveFromWatchLater";
-import CircleFillWatchLater from "@/app/components/atoms/icons/CircleFillWatchLater";
-import CircleFillWatched from "@/app/components/atoms/icons/CircleFillWatched";
+import MovieDetailesCast from "@/app/components/molecules/MovieDetailsCast";
+import MovieDetailesGenerals from "@/app/components/molecules/MovieDetailsGenerals";
 import MovieDetailesOverview from "@/app/components/molecules/MovieDetailsOverview";
 
 function MovieDetailes() {
   return (
-    <div className="flex flex-col bg-cream  items-center h-full">
+    <main className="flex flex-col bg-cream h-full space-y-6">
       <MovieDetailesOverview
         id="1"
         genre="Action"
@@ -22,7 +18,16 @@ function MovieDetailes() {
         isToWatch
         isWatched={false}
       />
-    </div>
+      <div className="ml-36 pb-60 space-y-10">
+        <MovieDetailesGenerals
+          budget={10000000}
+          originalLanguqge="English"
+          revenue={6418028}
+          status="Released"
+        />
+        <MovieDetailesCast />
+      </div>
+    </main>
   );
 }
 
