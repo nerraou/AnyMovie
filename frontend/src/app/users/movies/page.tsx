@@ -37,7 +37,6 @@ export default function UserMovies() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const userMoviesQuery = useUserMoviesQuery({
-    type: "favorites",
     accessToken:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcxNTI4NjcxOH0.LcDF-33nMssU17S81vDPZ3aw5kgqIGJPjb3wccBU0YU",
   });
@@ -98,6 +97,7 @@ export default function UserMovies() {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -114,6 +114,7 @@ export default function UserMovies() {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -130,6 +131,7 @@ export default function UserMovies() {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}

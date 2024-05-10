@@ -31,7 +31,7 @@ async function getMovies(page: number, query: string) {
 }
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   overview: string;
   releaseDate: string;
@@ -103,6 +103,7 @@ export default function Home() {
                   return (
                     <MovieCard
                       key={value.id}
+                      id={value.id}
                       name={value.title}
                       date={value.releaseDate}
                       image={value.posterPath}
