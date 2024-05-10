@@ -45,7 +45,10 @@ export default function NavBar() {
             Home
           </Link>
 
-          <Link className="text-yellow text-base font-normal" href="/">
+          <Link
+            className="text-yellow text-base font-normal"
+            href="/users/movies"
+          >
             My Movies
           </Link>
         </section>

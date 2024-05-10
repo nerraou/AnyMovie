@@ -4,6 +4,7 @@ import MovieDetailesCast from "@/app/components/molecules/MovieDetailsCast";
 import MovieDetailesGenerals from "@/app/components/molecules/MovieDetailsGenerals";
 import MovieDetailesOverview from "@/app/components/molecules/MovieDetailsOverview";
 import { useGetMovieById } from "@/app/components/services/useGetMovieByIdQuery";
+import Layout from "@/app/components/templates/Layout";
 
 interface MovieDetailsProps {
   params: {
@@ -15,7 +16,7 @@ function MovieDetailes(props: MovieDetailsProps) {
   const { data } = useGetMovieById(props.params.id);
 
   return (
-    <main className="flex flex-col bg-cream h-full space-y-6">
+    <Layout contentClassName="flex flex-col bg-cream h-full space-y-6">
       <MovieDetailesOverview
         id={data.id}
         genres={data.genres}
@@ -42,7 +43,7 @@ function MovieDetailes(props: MovieDetailsProps) {
         />
         <MovieDetailesCast cast={data.cast} />
       </div>
-    </main>
+    </Layout>
   );
 }
 

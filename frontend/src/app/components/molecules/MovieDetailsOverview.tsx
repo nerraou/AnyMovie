@@ -45,6 +45,7 @@ function MovieDetailesOverview(props: MovieDetailesOverviewProps) {
           fill
           className="absolute object-cover object-top"
         />
+        <div className="absolute w-full h-96 bg-[rgba(0,0,0,.7)]" />
         <div className="absolute pl-36  py-8 h-full w-full flex">
           <div className="relative h-full w-56">
             <Image

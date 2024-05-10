@@ -51,6 +51,13 @@ function MovieSlider() {
       className="keen-slider flex items-center overflow-hidden"
     >
       {data.map((movie) => {
+        let image = "/images/movie-backdrop-placeholder.jpg";
+
+        if (movie.backdropPath) {
+          image =
+            process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL + movie.backdropPath;
+        }
+
         return (
           <div
             key={movie.id}
@@ -60,14 +67,14 @@ function MovieSlider() {
             <div className="relative w-full h-96">
               <Image
                 priority={false}
-                src={
-                  process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL +
-                  movie.backdropPath
-                }
+                src={image}
                 alt="movie"
                 fill
                 className="absolute object-cover object-top"
               />
+
+              <div className="absolute w-full h-96 bg-[rgba(0,0,0,.5)]" />
+
               <div className="absolute bottom-11 left-5">
                 <h1 className="text-white font-black text-3xl mb-1">
                   {movie.title}

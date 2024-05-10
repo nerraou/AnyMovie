@@ -46,7 +46,11 @@ export default function SignIn() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button loading={isPasswordVisibile} className="w-28" title="Sign In" />
+      <Button
+        loading={signInMutation.isPending}
+        className="w-28"
+        title="Sign In"
+      />
     </form>
   );
 }
