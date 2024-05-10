@@ -6,6 +6,7 @@ import { useUserMoviesQuery } from "@/app/components/services/useUserMoviesQuery
 import Layout from "@/app/components/templates/Layout";
 import { Tab as HTab } from "@headlessui/react";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import { Fragment, ReactNode, useMemo, useState } from "react";
 
 interface TabItemProps {
@@ -35,10 +36,10 @@ function TabItem(props: TabItemProps) {
 export default function UserMovies() {
   const [type, selectedType] = useState("favorites");
   const [searchQuery, setSearchQuery] = useState("");
+  const session = useSession();
 
   const userMoviesQuery = useUserMoviesQuery({
-    accessToken:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcxNTI4NjcxOH0.LcDF-33nMssU17S81vDPZ3aw5kgqIGJPjb3wccBU0YU",
+    accessToken: session.data?.user.accessToken as string,
   });
 
   const movies = useMemo(() => {
@@ -91,13 +92,13 @@ export default function UserMovies() {
           />
         </div>
 
-        <HTab.Panels className="mt-3 grid grid-cols-4 gap-6">
-          <HTab.Panel>
+        <HTab.Panels className="mt-3">
+          <HTab.Panel className="grid grid-cols-4 gap-6">
             {movies?.map((value) => {
               return (
                 <MovieCard
                   key={value.id}
-                  id={value.id}
+                  id={value.movieId}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -109,12 +110,12 @@ export default function UserMovies() {
             })}
           </HTab.Panel>
 
-          <HTab.Panel>
+          <HTab.Panel className="grid grid-cols-4 gap-6">
             {movies?.map((value) => {
               return (
                 <MovieCard
                   key={value.id}
-                  id={value.id}
+                  id={value.movieId}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -126,12 +127,12 @@ export default function UserMovies() {
             })}
           </HTab.Panel>
 
-          <HTab.Panel>
+          <HTab.Panel className="grid grid-cols-4 gap-6">
             {movies?.map((value) => {
               return (
                 <MovieCard
                   key={value.id}
-                  id={value.id}
+                  id={value.movieId}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}

@@ -9,6 +9,12 @@ import RemoveFromWatchLater from "../atoms/icons/RemoveFromWatchLater";
 import FillHeart from "../atoms/icons/FillHeart";
 import AddToWatched from "../atoms/icons/AddToWatched";
 import useToggleFavoriteMutation from "../services/useToggleFavoriteMutation";
+import { useSession } from "next-auth/react";
+import clsx from "clsx";
+import { useState } from "react";
+import useToggleToWatchMutation from "../services/useToggleToWatchMutation";
+import useToggleWatchedMutation from "../services/useToggleWatchedMutation";
+import Link from "next/link";
 
 interface MovieCardProps {
   id: number;
@@ -22,6 +28,14 @@ interface MovieCardProps {
 
 function MovieCard(props: MovieCardProps) {
   const toggleFavoriteMutation = useToggleFavoriteMutation();
+  const toggleToWatchMutation = useToggleToWatchMutation();
+  const toggleWatchedMutation = useToggleWatchedMutation();
+
+  const { data } = useSession();
+
+  const [isFavorite, setIsFavorite] = useState(props.isFavorite);
+  const [isToWatch, setToWatch] = useState(props.isToWatch);
+  const [isWatched, setIsWatched] = useState(props.isWatched);
 
   let image = "/images/movie-poster-placeholder.jpg";
 
@@ -30,45 +44,77 @@ function MovieCard(props: MovieCardProps) {
   }
 
   return (
-    <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60">
-      <Image
-        src={image}
-        alt="movie image"
-        width={200}
-        height={230}
-        className="object-contain rounded-lg"
-      />
+    <Link href={`/movie-details/${props.id}`}>
+      <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60">
+        <Image
+          src={image}
+          alt="movie image"
+          width={200}
+          height={230}
+          className="object-contain rounded-lg"
+        />
 
-      <div className="flex justify-between mt-2">
-        <div>
-          <h1 className="text-dark-blue font-semibold">{props.name}</h1>
-          <p className="text-blue font-light">{props.date}</p>
-        </div>
-        <div className="flex space-x-2">
-          <button
-            onClick={() => {
-              toggleFavoriteMutation.mutate({
-                movieId: props.id,
-                accessToken: "",
-              });
-            }}
+        <div className="flex justify-between mt-2">
+          <div>
+            <h1 className="text-dark-blue font-semibold">{props.name}</h1>
+            <p className="text-blue font-light">{props.date}</p>
+          </div>
+          <div
+            className={clsx("flex space-x-2", {
+              hidden: !data,
+            })}
           >
-            {props.isToWatch && <WatchLater />}
-            {!props.isToWatch && <RemoveFromWatchLater />}
-          </button>
+            <button
+              disabled={toggleToWatchMutation.isPending}
+              onClick={(e) => {
+                e.preventDefault();
 
-          <button>
-            {props.isFavorite && <FillHeart />}
-            {!props.isFavorite && <Heart />}
-          </button>
+                toggleToWatchMutation.mutate({
+                  movieId: props.id,
+                  accessToken: data?.user.accessToken as string,
+                });
+                setToWatch(!isToWatch);
+              }}
+            >
+              {isToWatch && <WatchLater />}
+              {!isToWatch && <RemoveFromWatchLater />}
+            </button>
 
-          <button>
-            {props.isWatched && <Watched />}
-            {!props.isWatched && <AddToWatched />}
-          </button>
+            <button
+              disabled={toggleFavoriteMutation.isPending}
+              onClick={(e) => {
+                e.preventDefault();
+
+                toggleFavoriteMutation.mutate({
+                  movieId: props.id,
+                  accessToken: data?.user.accessToken as string,
+                });
+                setIsFavorite(!isFavorite);
+              }}
+            >
+              {isFavorite && <FillHeart />}
+              {!isFavorite && <Heart />}
+            </button>
+
+            <button
+              disabled={toggleWatchedMutation.isPending}
+              onClick={(e) => {
+                e.preventDefault();
+
+                toggleWatchedMutation.mutate({
+                  movieId: props.id,
+                  accessToken: data?.user.accessToken as string,
+                });
+                setIsWatched(!isWatched);
+              }}
+            >
+              {isWatched && <Watched />}
+              {!isWatched && <AddToWatched />}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

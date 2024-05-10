@@ -12,8 +12,6 @@ interface MovieDetailsProps {
 }
 
 function MovieDetailes(props: MovieDetailsProps) {
-  console.log(props.params.id);
-
   const { data } = useGetMovieById(props.params.id);
 
   return (

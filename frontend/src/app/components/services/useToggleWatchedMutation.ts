@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import baseQuery, { RequestError } from "../utils/baseQuery";
 
-interface UseToggleFavoriteMutationData {
+interface UseToggleWatchedMutationData {
   movieId: number;
   accessToken: string;
 }
 
-function toggleFavorite(data: UseToggleFavoriteMutationData) {
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/movies/toggle/favorite";
+function toggleWatched(data: UseToggleWatchedMutationData) {
+  const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/movies/toggle/watched";
 
   return baseQuery(url, {
     method: "POST",
@@ -19,10 +19,10 @@ function toggleFavorite(data: UseToggleFavoriteMutationData) {
   });
 }
 
-export default function useToggleFavoriteMutation() {
-  return useMutation<any, RequestError, UseToggleFavoriteMutationData>({
+export default function useToggleWatchedMutation() {
+  return useMutation<any, RequestError, UseToggleWatchedMutationData>({
     mutationFn(data) {
-      return toggleFavorite(data);
+      return toggleWatched(data);
     },
   });
 }

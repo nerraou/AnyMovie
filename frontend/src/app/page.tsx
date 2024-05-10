@@ -13,13 +13,14 @@ import {
 import Loading from "./components/atoms/icons/Loading";
 import { debounce } from "lodash";
 import Layout from "./components/templates/Layout";
+import { useUserMoviesQuery } from "./components/services/useUserMoviesQuery";
+import { useSession } from "next-auth/react";
 
 async function getMovies(page: number, query: string) {
   const url =
     process.env.NEXT_PUBLIC_API_BASE_URL +
     `/movies?page=${page}${query ? `&search_query=${query}` : ""}`;
 
-  console.log("url: ", url);
   const res = await baseQuery(url);
   let nextPage: number | null = page + 1;
   const response = await res.json();
@@ -61,6 +62,12 @@ export default function Home() {
       },
     });
 
+  const session = useSession();
+
+  const userMoviesQuery = useUserMoviesQuery({
+    accessToken: session.data?.user.accessToken as string,
+  });
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -87,7 +94,6 @@ export default function Home() {
         <InputSearch
           value={virtualQuery}
           onChange={(e) => {
-            console.log("search");
             setVirtualQuery(e.target.value);
             debouncedSetQuery(e.target.value);
           }}
@@ -101,6 +107,10 @@ export default function Home() {
             return (
               <Fragment key={key}>
                 {page.movies.map((value) => {
+                  const movies = userMoviesQuery.data?.movies ?? [];
+
+                  const movie = movies.find((item) => item.movieId == value.id);
+
                   return (
                     <MovieCard
                       key={value.id}
@@ -108,9 +118,9 @@ export default function Home() {
                       name={value.title}
                       date={value.releaseDate}
                       image={value.posterPath}
-                      isFavorite
-                      isToWatch
-                      isWatched
+                      isFavorite={movie?.isFavorite ?? false}
+                      isToWatch={movie?.isToWatch ?? false}
+                      isWatched={movie?.isWatched ?? false}
                     />
                   );
                 })}

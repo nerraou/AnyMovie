@@ -27,16 +27,11 @@ export const authOptions = {
           }),
         });
 
-        console.log("status", res.status);
-
         if (res.status == 200) {
           const data = await res.json();
-          console.log("data", data);
 
           return data;
         } else {
-          console.log("no-data");
-
           return null;
         }
       },
