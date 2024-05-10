@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Fragment, ReactNode } from "react";
 import SignIn from "../molecules/SignIn";
 import { signOut, useSession } from "next-auth/react";
+import SignUp from "../molecules/SignUp";
 
 interface FormPopoverProps {
   button: ReactNode;
@@ -72,7 +73,7 @@ export default function NavBar() {
                   Sign Up
                 </button>
               }
-              form={<SignIn />}
+              form={<SignUp />}
             />
 
             <FormPopover
