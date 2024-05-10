@@ -2,6 +2,7 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, ReactNode } from "react";
 import SignIn from "../molecules/SignIn";
+import { signOut, useSession } from "next-auth/react";
 
 interface FormPopoverProps {
   button: ReactNode;
@@ -33,7 +34,7 @@ function FormPopover(props: FormPopoverProps) {
 }
 
 export default function NavBar() {
-  const session: boolean = false;
+  const { data } = useSession();
 
   return (
     <header className="flex items-center h-20 bg-gunmetal px-8">
@@ -48,15 +49,22 @@ export default function NavBar() {
           </Link>
         </section>
 
-        {session && (
+        {data && (
           <section>
-            <button className="text-olive-green text-base font-normal">
+            <button
+              onClick={() =>
+                signOut({
+                  redirect: false,
+                })
+              }
+              className="text-olive-green text-base font-normal"
+            >
               Sign Out
             </button>
           </section>
         )}
 
-        {!session && (
+        {!data && (
           <section className="grid grid-cols-2 gap-4">
             <FormPopover
               button={
