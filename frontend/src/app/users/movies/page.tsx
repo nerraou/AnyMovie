@@ -3,6 +3,7 @@
 import InputSearch from "@/app/components/atoms/InputSearch";
 import MovieCard from "@/app/components/molecules/MovieCard";
 import { useUserMoviesQuery } from "@/app/components/services/useUserMoviesQuery";
+import Layout from "@/app/components/templates/Layout";
 import { Tab as HTab } from "@headlessui/react";
 import clsx from "clsx";
 import { Fragment, ReactNode, useMemo, useState } from "react";
@@ -36,7 +37,6 @@ export default function UserMovies() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const userMoviesQuery = useUserMoviesQuery({
-    type: "favorites",
     accessToken:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcxNTI4NjcxOH0.LcDF-33nMssU17S81vDPZ3aw5kgqIGJPjb3wccBU0YU",
   });
@@ -64,7 +64,7 @@ export default function UserMovies() {
   }, [userMoviesQuery.data, type, searchQuery]);
 
   return (
-    <main className="px-16 bg-cream h-screen">
+    <Layout className="bg-cream h-screen" contentClassName="px-16">
       <HTab.Group
         onChange={(selectedIndex) => {
           if (selectedIndex == 0) {
@@ -91,12 +91,13 @@ export default function UserMovies() {
           />
         </div>
 
-        <HTab.Panels className="mt-3">
+        <HTab.Panels className="mt-3 grid grid-cols-4 gap-6">
           <HTab.Panel>
             {movies?.map((value) => {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -113,6 +114,7 @@ export default function UserMovies() {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -129,6 +131,7 @@ export default function UserMovies() {
               return (
                 <MovieCard
                   key={value.id}
+                  id={value.id}
                   name={value.title}
                   date={value.releaseDate}
                   image={value.posterPath}
@@ -141,6 +144,6 @@ export default function UserMovies() {
           </HTab.Panel>
         </HTab.Panels>
       </HTab.Group>
-    </main>
+    </Layout>
   );
 }

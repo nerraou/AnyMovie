@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import Heart from "../atoms/icons/Heart";
@@ -6,8 +8,10 @@ import WatchLater from "../atoms/icons/WatchLater";
 import RemoveFromWatchLater from "../atoms/icons/RemoveFromWatchLater";
 import FillHeart from "../atoms/icons/FillHeart";
 import AddToWatched from "../atoms/icons/AddToWatched";
+import useToggleFavoriteMutation from "../services/useToggleFavoriteMutation";
 
 interface MovieCardProps {
+  id: number;
   name: string;
   image?: string | null | undefined;
   date: string;
@@ -17,6 +21,8 @@ interface MovieCardProps {
 }
 
 function MovieCard(props: MovieCardProps) {
+  const toggleFavoriteMutation = useToggleFavoriteMutation();
+
   let image = "/images/movie-poster-placeholder.jpg";
 
   if (props.image) {
@@ -39,14 +45,27 @@ function MovieCard(props: MovieCardProps) {
           <p className="text-blue font-light">{props.date}</p>
         </div>
         <div className="flex space-x-2">
-          {props.isToWatch && <WatchLater />}
-          {!props.isToWatch && <RemoveFromWatchLater />}
+          <button
+            onClick={() => {
+              toggleFavoriteMutation.mutate({
+                movieId: props.id,
+                accessToken: "",
+              });
+            }}
+          >
+            {props.isToWatch && <WatchLater />}
+            {!props.isToWatch && <RemoveFromWatchLater />}
+          </button>
 
-          {props.isFavorite && <FillHeart />}
-          {!props.isFavorite && <Heart />}
+          <button>
+            {props.isFavorite && <FillHeart />}
+            {!props.isFavorite && <Heart />}
+          </button>
 
-          {props.isWatched && <Watched />}
-          {!props.isWatched && <AddToWatched />}
+          <button>
+            {props.isWatched && <Watched />}
+            {!props.isWatched && <AddToWatched />}
+          </button>
         </div>
       </div>
     </div>

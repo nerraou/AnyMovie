@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import Loading from "./components/atoms/icons/Loading";
 import { debounce } from "lodash";
+import Layout from "./components/templates/Layout";
 
 async function getMovies(page: number, query: string) {
   const url =
@@ -31,7 +32,7 @@ async function getMovies(page: number, query: string) {
 }
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   overview: string;
   releaseDate: string;
@@ -75,7 +76,7 @@ export default function Home() {
     []
   );
   return (
-    <main className="flex flex-col bg-cream  items-center h-full">
+    <Layout contentClassName="flex flex-col bg-cream items-center h-full">
       <div className="w-full">
         <Suspense fallback={<Loading />}>
           <MovieSlider />
@@ -103,6 +104,7 @@ export default function Home() {
                   return (
                     <MovieCard
                       key={value.id}
+                      id={value.id}
                       name={value.title}
                       date={value.releaseDate}
                       image={value.posterPath}
@@ -120,6 +122,6 @@ export default function Home() {
           {isFetchingNextPage ? <Loading width="w-6" height="w-6" /> : null}
         </div>
       </div>
-    </main>
+    </Layout>
   );
 }

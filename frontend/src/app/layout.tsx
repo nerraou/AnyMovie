@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 
 import ReactQueryProvider from "./components/providers/ReactQueryProvider";
+import AuthSessionProvider from "./components/providers/AuthSessionProvider";
 
 const sourceSans3 = Source_Sans_3({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={sourceSans3.className}>
-        <ReactQueryProvider>{children} </ReactQueryProvider>
+        <AuthSessionProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

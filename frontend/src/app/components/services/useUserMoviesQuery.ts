@@ -21,15 +21,10 @@ interface UserMoviesQueryResponse {
 }
 
 interface UseUserMoviesQueryParams {
-  type: string;
   accessToken?: string;
 }
 
 async function getUserMovies(params: UseUserMoviesQueryParams) {
-  const searchParams = new URLSearchParams({
-    type: params.type,
-  });
-
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/users/movies";
 
   const res = await baseQuery(url, {
@@ -44,7 +39,7 @@ async function getUserMovies(params: UseUserMoviesQueryParams) {
 export function useUserMoviesQuery(params: UseUserMoviesQueryParams) {
   return useQuery<UserMoviesQueryResponse>({
     enabled: !!params.accessToken,
-    queryKey: ["user-movies", params.type],
+    queryKey: ["user-movies"],
     queryFn: () => {
       return getUserMovies(params);
     },
