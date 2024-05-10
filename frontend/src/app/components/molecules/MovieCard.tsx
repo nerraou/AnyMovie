@@ -44,8 +44,8 @@ function MovieCard(props: MovieCardProps) {
   }
 
   return (
-    <Link href={`/movie-details/${props.id}`}>
-      <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60">
+    <div className="bg-white border-4 rounded-xl border-light-blue p-3 shadow-lg w-60 h-[300]">
+      <Link href={`/movie-details/${props.id}`}>
         <Image
           src={image}
           alt="movie image"
@@ -113,8 +113,8 @@ function MovieCard(props: MovieCardProps) {
             </button>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
